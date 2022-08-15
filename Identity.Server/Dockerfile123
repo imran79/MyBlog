@@ -1,0 +1,40 @@
+# # https://hub.docker.com/_/microsoft-dotnet
+# FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
+# WORKDIR /source
+
+# # copy csproj and restore as distinct layers
+# COPY *.sln .
+# COPY identityserver/*.csproj ./identityserver/
+# RUN dotnet restore
+
+# # copy everything else and build app
+# COPY identityserver/. ./identityserver/
+# WORKDIR /source/identityserver
+# RUN dotnet publish -c release -o /app --no-restore
+
+# # final stage/image
+# FROM mcr.microsoft.com/dotnet/aspnet:5.0
+# WORKDIR /app
+# COPY --from=build /app ./
+# ENTRYPOINT ["dotnet", "IdentityServer.dll"]
+
+
+FROM mcr.microsoft.com/dotnet/sdk:5.0 as debug
+
+#install debugger for NET Core
+RUN apt-get update
+RUN apt-get install -y unzip
+RUN curl -sSL https://aka.ms/getvsdbgsh | /bin/sh /dev/stdin -v latest -l ~/vsdbg
+
+RUN mkdir /identityserver/
+WORKDIR /identityserver/
+
+COPY . /identityserver/.
+
+RUN dotnet restore "identityserver/IdentityServer.csproj"
+
+ENV DOTNET_USE_POLLING_FILE_WATCHER 1
+
+WORKDIR /identityserver/identityserver/
+
+ENTRYPOINT dotnet watch run --urls=https://+:4003;http://+:4002

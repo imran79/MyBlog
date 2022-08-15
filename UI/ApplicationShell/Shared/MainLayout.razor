@@ -1,0 +1,32 @@
+@inherits LayoutComponentBase
+
+<div>
+    <!--Screen-->
+    <div class="min-h-screen flex flex-col">
+
+        <LoginDisplay OnClick="ClickHandler" />
+
+        <div class="flex flex-1">
+            <NavMenu isCollapse="ToggleSideMenu" />
+
+            <main class="bg-white-300 flex-1 p-3 overflow-hidden">
+                @Body
+
+            </main>
+
+        </div>
+    </div>
+
+</div>
+@code {
+    private bool collapseNavMenu = true;
+    [Parameter] public bool ToggleSideMenu { get { return collapseNavMenu; } set { this.collapseNavMenu = value; } }
+    void ClickHandler()
+    {
+        this.collapseNavMenu = !this.collapseNavMenu;
+        this.ToggleSideMenu = this.collapseNavMenu;
+        StateHasChanged();
+
+    }
+
+}

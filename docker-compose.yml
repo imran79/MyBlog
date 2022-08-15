@@ -1,0 +1,30 @@
+
+version: "3.6"
+services:
+    rabbitmq:
+        container_name: rabbitmq
+        ports:
+            - 5672:5672
+            - 15672:15672
+        environment:
+            - RABBITMQ_DEFAULT_USER=user
+            - RABBITMQ_DEFAULT_PASS=password        
+        image: rabbitmq:3-management
+                
+    blogapi:
+        container_name: blogapi
+        ports:
+            - 3000:80
+            - 3001:443
+        environment:
+            - "ASPNETCORE_URLS=https://+;http://+"
+            - Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+            - Kestrel__Certificates__Default__Password=password
+        volumes:
+            - ~/.aspnet/https:/https:ro        
+           
+        restart: on-failure        
+        depends_on:
+            - rabbitmq
+        
+    

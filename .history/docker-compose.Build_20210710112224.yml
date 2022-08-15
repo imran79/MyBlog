@@ -1,0 +1,80 @@
+version: "3.9"
+services:
+    # rabbitmq:
+    #     container_name: rabbitmq-blog
+    #     ports:
+    #         - 5672:5672
+    #         - 15672:15672
+    #     environment:
+    #         - RABBITMQ_DEFAULT_USER=user
+    #         - RABBITMQ_DEFAULT_PASS=password        
+    #     image: rabbitmq:3-management
+        
+    db:
+        container_name: db_blog
+        image: "mcr.microsoft.com/mssql/server:2019-CU11-ubuntu-20.04"
+        ports:
+            - 1433:1433            
+        environment:
+            SA_PASSWORD: "My_Password"
+            ACCEPT_EULA: "Y"
+        # volumes:
+        #     - c:/data/mssql:/var/opt/mssql
+                
+    # blogapi:
+    #     container_name: blogapi
+    #     ports:
+    #         - 3000:80
+    #         - 3001:443
+    #     environment:
+    #         - "ASPNETCORE_URLS=https://+;http://+"
+    #         - Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+    #         - Kestrel__Certificates__Default__Password=password  
+    #     volumes:
+    #         - ~/.aspnet/https:/https:ro          
+    #     build:
+    #         context: ./Services/Blog
+    #         dockerfile: Blog.Api/Dockerfile
+    #     restart: on-failure        
+    #     depends_on:
+    #         - rabbitmq
+    #         - db
+        
+    # userapi:
+    #     container_name: userapi
+    #     ports:
+    #         - 5007:80
+    #         - 5005:443
+    #     environment:
+    #         - "ASPNETCORE_URLS=https://+;http://+"
+    #         - Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+    #         - Kestrel__Certificates__Default__Password=password  
+    #     volumes:
+    #         - ~/.aspnet/https:/https:ro         
+    #     build:
+    #         context: .      
+    #         dockerfile: Services/User/User.Api/Dockerfile
+    #     restart: on-failure
+    #     depends_on:
+    #         - rabbitmq
+    #         - db            
+
+    identityserver:
+        container_name: IdentityServer
+        image: identityserver:dev
+        ports:
+            - 4002:80
+            - 4003:443
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Development
+            - ASPNETCORE_URLS=https://+:443;http://+:80
+            - ASPNETCORE_Kestrel__Certificates__Default__Password=Password
+            - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+        volumes:              
+            - ~/.aspnet/https:/https:ro      
+        build:
+            context: ./Identity.Server      
+            dockerfile: Identity.Server/Dockerfile            
+        restart: on-failure
+        depends_on:            
+            - db         

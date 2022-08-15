@@ -1,0 +1,68 @@
+﻿<aside id="sidebar"
+    class="@NavMenuCssClass bg-side-nav w-1/2 md:w-1/6 lg:w-1/6 border-r border-side-nav hidden md:block lg:block">
+
+	<ul class="list-reset flex flex-col">
+		<NavLink class="font-sans font-hairline hover:font-normal text-sm text-nav-item no-underline hover:no-underline w-full h-full py-3 px-2 border-b border-light-border focus:bg-white focus:outline-none transition ease-linear duration-700 "
+				 href="" Match="NavLinkMatch.All">
+
+			<i class="fas fa-tachometer-alt float-left mx-2"></i>
+			Home
+			<span><i class="fas fa-angle-right float-right"></i></span>
+		</NavLink>
+
+		<NavLink class="font-sans font-hairline hover:font-normal text-sm text-nav-item no-underline hover:no-underline w-full h-full py-3 px-2 border-b border-light-border focus:bg-white focus:outline-none"
+				 href="blogs" Match="NavLinkMatch.All">
+
+			<i class="fas fa-tachometer-alt float-left mx-2"></i>
+			Blog
+			<span><i class="fas fa-angle-right float-right"></i></span>
+		</NavLink>
+
+		<NavLink class="font-sans font-hairline hover:font-normal text-sm text-nav-item no-underline hover:no-underline w-full h-full py-3 px-2 border-b border-light-border focus:bg-white focus:outline-none"
+				 href="privacy" Match="NavLinkMatch.All">
+
+			<i class="fas fa-tachometer-alt float-left mx-2"></i>
+			Privacy
+			<span><i class="fas fa-angle-right float-right"></i></span>
+		</NavLink>
+
+		<AuthorizeView>
+			<Authorized>
+
+				<NavLink class="font-sans font-hairline hover:font-normal text-sm text-nav-item no-underline hover:no-underline w-full h-full py-3 px-2 border-b border-light-border focus:bg-white focus:outline-none"
+						 href="blogs" Match="NavLinkMatch.All">
+
+					<i class="fas fa-tachometer-alt float-left mx-2"></i>
+					Blogs
+					<span><i class="fas fa-angle-right float-right"></i></span>
+				</NavLink>
+
+			</Authorized>
+		</AuthorizeView>
+		<AuthorizeView>
+			<Authorized>
+				<NavLink class="font-sans font-hairline hover:font-normal text-sm text-nav-item no-underline hover:no-underline w-full h-full py-3 px-2 border-b border-light-border focus:bg-white focus:outline-none"
+						 href="posts" Match="NavLinkMatch.All">
+
+					<i class="fas fa-tachometer-alt float-left mx-2"></i>
+					Posts
+					<span><i class="fas fa-angle-right float-right"></i></span>
+				</NavLink>
+
+			</Authorized>
+		</AuthorizeView>
+
+	</ul>
+
+</aside>
+
+@code {
+    private bool collapseNavMenu = true;
+
+    private string NavMenuCssClass => collapseNavMenu ? "hide" : "show";
+
+
+    [Parameter]
+    public bool isCollapse { set { collapseNavMenu = !collapseNavMenu; } }
+
+}

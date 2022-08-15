@@ -1,0 +1,83 @@
+@* Hello, @context.User.Identity.Name!
+    <a href="LogOut">Log out</a> *@
+<header class="bg-nav">
+    <div class="flex justify-between">
+        <div class="p-1 mx-3 inline-flex items-center text-left">
+            <i class="fa fa-bars pr-2 text-white cursor-pointer" @onclick="@(() => OnClick.InvokeAsync())"></i>
+            <h1 class="text-white p-2">Logo</h1>
+        </div>
+        <div class="p-1 relative flex flex-row items-center">
+            <AuthorizeView>
+                <Authorized>
+                    <a href="https://github.com/tailwindadmin/admin"
+                        class="text-white p-2 mr-2 no-underline hidden md:block lg:block hover:no-underline">Github</a>
+
+                    <img @onclick="ProfileToggle"  @onfocusout="LostFocus"  class="inline-block h-8 w-8 rounded-full focus: outline-none"
+                        src="https://0.gravatar.com/avatar/9462de4f55d69ac1ceb0ca7c6228d343" alt="" tabindex="0">
+                    <a href="#" @onclick="ProfileToggle" @onfocusout="LostFocus" 
+                        class="text-white p-2 no-underline hidden md:block lg:block hover:no-underline">@context.User.Identity.Name</a>
+
+                   
+                    <div class="@ProfileMenuCssClass origin-top-right absolute right-16 top-8 mt-2 w-26 z-10  w-26  rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 divide-y divide-gray-100"
+                        role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+                        <div class="py-1">
+                            <a href="#"
+                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                                role="menuitem">Edit</a>
+                            <a href="#"
+                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                                role="menuitem">Duplicate</a>
+                        </div>
+                        <div class="py-1">
+                            <a href="#"
+                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                                role="menuitem">Archive</a>
+                            <a href="#"
+                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                                role="menuitem">Move</a>
+                        </div>
+                        <div class="py-1">
+                            <a href="#"
+                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                                role="menuitem">Share</a>
+                            <a href="#"
+                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                                role="menuitem">Add to favorites</a>
+                        </div>
+                        <div class="py-1">
+                            <a href="#"
+                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                                role="menuitem">Delete</a>
+                        </div>
+                    </div>
+
+                </Authorized>
+
+            </AuthorizeView>
+
+
+
+        </div>
+    </div>
+</header>
+
+@code {
+    private bool isMenuVisible = false;
+    [Parameter] public EventCallback OnClick { get; set; }
+   
+
+    private string ProfileMenuCssClass => isMenuVisible ? "show" : "hide";
+
+    public void ProfileToggle()
+    {
+        
+        isMenuVisible = !isMenuVisible;
+    }
+
+    protected  void LostFocus(){
+        isMenuVisible = false;
+    }
+
+
+
+}

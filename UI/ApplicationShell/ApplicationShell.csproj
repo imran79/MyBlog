@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Blazored.LocalStorage" Version="3.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="5.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="5.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Authentication" Version="5.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="5.0.1" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="5.0.0" />
+    <PackageReference Include="System.Net.Http.Json" Version="5.0.0" />
+  </ItemGroup>
+
+<ItemGroup>
+    <BlazorWebAssemblyLazyLoad Include="User.dll" />
+    <BlazorWebAssemblyLazyLoad Include="Blog.dll" />
+  </ItemGroup>
+
+<ItemGroup>
+  <ProjectReference Include="..\Blog\Blog.csproj" />
+  <ProjectReference Include="..\User\User.csproj" />
+  <ProjectReference Include="..\..\Common\Common.csproj" />
+   
+</ItemGroup>
+
+<ItemGroup>
+  <Reference Include="Common">
+    <HintPath>..\..\Common\bin\Debug\net5.0\Common.dll</HintPath>
+  </Reference>
+</ItemGroup>
+
+</Project>
